@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import heroVideo from "../assets/videos/istockphoto-2228192872-640_adpp_is.mp4";
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,7 +40,7 @@ export default function Hero() {
           className="w-full h-full object-cover"
           style={{ filter: 'brightness(0.6)' }}
         >
-          <source src="/src/assets/videos/istockphoto-2228192872-640_adpp_is.mp4" type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Dark Overlay for better text readability */}
