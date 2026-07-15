@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, X, ChevronRight, ZoomIn, Plus, Minus } from "lucide-react";
+import { ArrowRight, X, ChevronRight, ZoomIn, Plus, Minus, Table, Info } from "lucide-react";
 import compressionImage from "../assets/images/Compression_spring/compression_first.png";
 import helicalImage from "../assets/images/Compression_spring/helical_spring.png";
 import ironCoilImage from "../assets/images/Compression_spring/iron_spring.png";
@@ -21,8 +21,218 @@ import torsionBendImage from "../assets/images/torsion_spring/torsion_Spring.png
 import electricalSwitchImage from "../assets/images/switch_spring/electric_switch.png";
 import electricSwitchImage from "../assets/images/switch_spring/electrical_spring.png";
 
+
 const ORANGE = "#EA580C"; // orange-600
 
+// ─── ADDITIONAL INFO FOR EACH SPRING ────────────────────────────────────
+const getSpringInfo = (subtypeName) => {
+  const info = {
+    "SS Compression Spring": "SS Compression Springs are manufactured from high-grade stainless steel, offering excellent corrosion resistance and durability. They are ideal for applications in food processing, pharmaceutical equipment, and marine environments where moisture and chemical exposure are concerns. These springs maintain consistent performance across a wide temperature range and provide reliable load-bearing capacity.",
+    
+    "Helical Compression Spring": "Helical Compression Springs feature a uniform pitch helix design that delivers consistent load distribution across the entire compression range. They are precision-engineered to provide reliable force resistance in automotive suspensions, industrial machinery, and valve systems. Their design allows for smooth compression and return, making them suitable for high-cycle applications.",
+    
+    "Iron Coil Springs": "Iron Coil Springs are heavy-duty cast iron springs engineered for high static load applications in press machines, stamping equipment, and heavy industrial machinery. They offer exceptional durability and resistance to deformation under extreme loads. These springs are ideal for environments requiring high load capacity and long service life.",
+    
+    "Cast Iron Spring": "Cast Iron Springs are designed for high-compression mechanical systems where rigidity and mass are critical factors. They provide excellent vibration damping and shock absorption properties, making them suitable for heavy machinery and industrial equipment. These springs offer superior wear resistance and dimensional stability.",
+    
+    "Mild Steel Compression Spring": "Mild Steel Compression Springs offer a cost-effective solution for standard industrial applications. They are versatile and widely used in general engineering, automotive, and manufacturing sectors. These springs provide reliable performance with good fatigue life and are easily customizable to meet specific requirements.",
+    
+    "Industrial Metal Spring": "Industrial Metal Springs are heavy-gauge coils designed for demanding factory environments requiring long cycle life. They are manufactured from alloy steel with enhanced fatigue resistance and can withstand extreme operating conditions. These springs are ideal for heavy equipment, mining machinery, and high-load industrial applications.",
+    
+    "Oil Seal Spring": "Oil Seal Springs are precision-engineered to retain lubricant in rotating shaft assemblies. They feature precision ground ends for leak-proof mating and are essential components in automotive engines, industrial pumps, and hydraulic systems. These springs maintain consistent pressure on seals to prevent fluid leakage.",
+    
+    "Double Torsion Spring": "Double Torsion Springs feature a dual-leg design that delivers balanced rotational force for symmetrical hinge and latch systems. They provide consistent torque output and are ideal for applications requiring equal force distribution on both sides. These springs are commonly used in automotive seating, garage doors, and industrial closures.",
+    
+    "Extension Springs": "Extension Springs absorb and store tensile energy, making them ideal for pull-back mechanisms in agricultural machinery, garage doors, and industrial equipment. They feature precision hooks and loops that provide reliable energy absorption and return force. These springs offer high fatigue life and smooth operation.",
+    
+    "Torsion Spring with Rotation Bend": "Torsion Springs with Rotation Bend feature custom bend angles and leg lengths for precise actuation in clips, hinges, and door closers. They provide controlled rotational force and are designed for applications requiring specific torque values. These springs are precision-wound to deliver consistent performance.",
+    
+    "Industrial Torsion Spring": "Industrial Torsion Springs deliver heavy-duty torque for industrial door systems, valve actuators, and garage mechanisms. They are manufactured from alloy steel with enhanced fatigue resistance and can withstand high-cycle applications. These springs provide reliable rotational force in demanding environments.",
+    
+    "Electrical Switches Springs": "Electrical Switches Springs are miniature precision springs engineered for high-cycle fatigue life in toggle, rocker, and micro-switch assemblies. They provide consistent return force and reliable electrical contact in circuit breakers and switching devices. These springs are essential components in the electrical industry.",
+    
+    "Electric Switch Spring": "Electric Switch Springs are micro-precision coils with consistent return force for circuit breakers and electrical contactors. They are manufactured from music wire with enhanced conductivity and fatigue resistance. These springs ensure reliable electrical contact and switching performance."
+  };
+  
+  return info[subtypeName] || "Precision-engineered spring solution for industrial applications. Manufactured with high-quality materials and advanced production techniques to ensure reliability and performance.";
+};
+
+// ─── SPECIFICATION DATA ────────────────────────────────────────────────────
+const getSpecifications = (subtypeName) => {
+  const specs = {
+    "SS Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "5 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "4 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 500 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "SS 302, SS 304, SS 316" },
+      ]
+    },
+    "Helical Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 300 mm" },
+        { name: "Internal Diameter (Di)", value: "2.5 mm - 280 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 600 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 1000 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Iron Coil Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "2 mm - 30 mm" },
+        { name: "External Diameter (De)", value: "10 mm - 350 mm" },
+        { name: "Internal Diameter (Di)", value: "8 mm - 320 mm" },
+        { name: "Free Length (Lo)", value: "20 mm - 800 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "1 - 800 N/mm" },
+        { name: "Maximum Deflection", value: "65% of free length" },
+        { name: "Material Grade", value: "Cast Iron, Ductile Iron" },
+      ]
+    },
+    "Cast Iron Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "2 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "8 mm - 280 mm" },
+        { name: "Internal Diameter (Di)", value: "6 mm - 260 mm" },
+        { name: "Free Length (Lo)", value: "15 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 600 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Cast Iron, SG Iron" },
+      ]
+    },
+    "Mild Steel Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "5 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "4 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 400 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.3 - 400 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Mild Steel EN8, EN9" },
+      ]
+    },
+    "Industrial Metal Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "1 mm - 30 mm" },
+        { name: "External Diameter (De)", value: "6 mm - 300 mm" },
+        { name: "Internal Diameter (Di)", value: "5 mm - 280 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 600 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 800 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Alloy Steel, Spring Steel" },
+      ]
+    },
+    "Oil Seal Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 10 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 150 mm" },
+        { name: "Internal Diameter (Di)", value: "2.5 mm - 140 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 300 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 300 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "SS 304, SS 316" },
+      ]
+    },
+    "Double Torsion Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 15 mm" },
+        { name: "External Diameter (De)", value: "4 mm - 180 mm" },
+        { name: "Internal Diameter (Di)", value: "3 mm - 160 mm" },
+        { name: "Free Length (Lo)", value: "8 mm - 400 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 500 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Extension Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "4 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "3 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.3 - 600 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Torsion Spring with Rotation Bend": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 12 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 150 mm" },
+        { name: "Internal Diameter (Di)", value: "2 mm - 140 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 300 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 400 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS" },
+      ]
+    },
+    "Industrial Torsion Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "1 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "6 mm - 250 mm" },
+        { name: "Internal Diameter (Di)", value: "5 mm - 230 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 700 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Alloy Steel, Spring Steel" },
+      ]
+    },
+    "Electrical Switches Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.1 mm - 5 mm" },
+        { name: "External Diameter (De)", value: "1 mm - 80 mm" },
+        { name: "Internal Diameter (Di)", value: "0.8 mm - 75 mm" },
+        { name: "Free Length (Lo)", value: "2 mm - 150 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.1 - 200 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS 304" },
+      ]
+    },
+    "Electric Switch Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.1 mm - 4 mm" },
+        { name: "External Diameter (De)", value: "1 mm - 60 mm" },
+        { name: "Internal Diameter (Di)", value: "0.8 mm - 55 mm" },
+        { name: "Free Length (Lo)", value: "2 mm - 120 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.1 - 150 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS 304" },
+      ]
+    }
+  };
+
+  return specs[subtypeName] || {
+    parameters: [
+      { name: "Wire Diameter (d)", value: "As per requirement" },
+      { name: "External Diameter (De)", value: "As per requirement" },
+      { name: "Internal Diameter (Di)", value: "As per requirement" },
+      { name: "Free Length (Lo)", value: "As per requirement" },
+      { name: "Solid Length (Ls)", value: "As per design" },
+      { name: "Spring Rate (R)", value: "As per requirement" },
+      { name: "Maximum Deflection", value: "As per design" },
+      { name: "Material Grade", value: "As per requirement" },
+    ]
+  };
+};
+
+// ─── CATEGORIES DATA ──────────────────────────────────────────────────────
 const categories = [
   {
     id: "compression",
@@ -43,8 +253,7 @@ const categories = [
         countryOfOrigin: "Made in India",
         productionCapacity: "10000–20000 piece per day",
         deliveryTime: "Within Week",
-        fullDescription:
-          "We are engaged in offering SS Compression Spring to our clients. Our range of all products is widely appreciated by our clients.",
+        fullDescription: "We are engaged in offering SS Compression Spring to our clients. Our range of all products is widely appreciated by our clients.",
       },
       {
         name: "Helical Compression Spring",
@@ -59,8 +268,7 @@ const categories = [
         countryOfOrigin: "Made in India",
         productionCapacity: "10000–20000 piece per day",
         deliveryTime: "Within Week",
-        fullDescription:
-          "Our Helical Compression Springs are precision engineered for consistent performance.",
+        fullDescription: "Our Helical Compression Springs are precision engineered for consistent performance.",
       },
       {
         name: "Iron Coil Springs",
@@ -166,8 +374,7 @@ const categories = [
         countryOfOrigin: "Made in India",
         productionCapacity: "10000–20000 piece per day",
         deliveryTime: "Within Week",
-        fullDescription:
-          "We are engaged in offering Oil Seal Spring to our clients. Our range of all products is widely appreciated by our clients.",
+        fullDescription: "We are engaged in offering Oil Seal Spring to our clients. Our range of all products is widely appreciated by our clients.",
       },
       {
         name: "Double Torsion Spring",
@@ -390,7 +597,7 @@ function Modal({ cat, onClose }) {
           onClick={(e) => e.stopPropagation()}
           style={{
             background: "#fff", borderRadius: 16, width: "100%",
-            maxWidth: 680, maxHeight: "90vh", overflowY: "auto",
+            maxWidth: 780, maxHeight: "90vh", overflowY: "auto",
             boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
           }}
         >
@@ -416,98 +623,160 @@ function Modal({ cat, onClose }) {
             </button>
           </div>
 
-          {/* Subtype cards */}
-          <div style={{ padding: "18px 22px 28px", display: "flex", flexDirection: "column", gap: 18 }}>
-            {cat.subtypes.map((sub, i) => (
-              <div key={i} style={{
-                background: "#fff", border: "1px solid #EAEAEA", borderRadius: 14,
-                overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-              }}>
-                {/* Image */}
-                <div style={{ position: "relative" }}>
-                  <ImgSlot src={sub.image} alt={sub.name} height={200} onClick={() => setZoomImage({ src: sub.image, alt: sub.name })} />
-                  <div
-                    onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
-                    style={{
-                      position: "absolute", bottom: 10, right: 10, background: "rgba(0,0,0,0.6)",
-                      color: "#fff", padding: "4px 10px", borderRadius: 4, fontSize: 11,
-                      display: "flex", alignItems: "center", gap: 5, cursor: "pointer",
-                    }}
-                  >
-                    <ZoomIn size={12} /> Click to zoom
-                  </div>
-                </div>
+          {/* Subtype cards - ENHANCED with specs table */}
+          <div style={{ padding: "18px 22px 28px", display: "flex", flexDirection: "column", gap: 24 }}>
+            {cat.subtypes.map((sub, i) => {
+              const specs = getSpecifications(sub.name);
+              const springInfo = getSpringInfo(sub.name);
 
-                <div style={{ padding: "16px 18px" }}>
-                  {/* Name */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                    <span style={{ width: 18, height: 3, background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
-                    <p style={{ fontSize: 18, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>{sub.name}</p>
-                  </div>
-
-                  {/* Price */}
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, margin: "6px 0 8px" }}>
-                    <span style={{ fontSize: 22, fontWeight: 800, color: ORANGE }}>{sub.price}</span>
-                    <span style={{ fontSize: 12, color: "#999" }}>Get Latest Price</span>
-                  </div>
-
-                  <p style={{ fontSize: 14, color: "#666", lineHeight: 1.7, margin: "0 0 12px" }}>{sub.desc}</p>
-
-                  {/* Details table */}
-                  <div style={{
-                    background: "#FBF8F5", border: "1px solid #F0EBE5",
-                    borderRadius: 8, padding: "12px 14px", marginBottom: 12,
-                  }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 16px", fontSize: 13 }}>
-                      {[
-                        ["Min. Order Qty", sub.moq],
-                        ["Size", sub.size],
-                        ["Material", sub.material],
-                        ["Shape", sub.shape],
-                        ["Usage", sub.usage],
-                        ["Country of Origin", sub.countryOfOrigin],
-                      ].map(([label, value]) => (
-                        <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "3px 0", gap: 4 }}>
-                          <span style={{ color: "#999" }}>{label}:</span>
-                          <span style={{ fontWeight: 600, color: "#333", textAlign: "right" }}>{value}</span>
-                        </div>
-                      ))}
+              return (
+                <div key={i} style={{
+                  background: "#fff", border: "1px solid #EAEAEA", borderRadius: 14,
+                  overflow: "hidden", boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                }}>
+                  {/* Image */}
+                  <div style={{ position: "relative" }}>
+                    <ImgSlot src={sub.image} alt={sub.name} height={220} onClick={() => setZoomImage({ src: sub.image, alt: sub.name })} />
+                    <div
+                      onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
+                      style={{
+                        position: "absolute", bottom: 10, right: 10, background: "rgba(0,0,0,0.6)",
+                        color: "#fff", padding: "4px 10px", borderRadius: 4, fontSize: 11,
+                        display: "flex", alignItems: "center", gap: 5, cursor: "pointer",
+                      }}
+                    >
+                      <ZoomIn size={12} /> Click to zoom
                     </div>
                   </div>
 
-                  <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, margin: "0 0 12px", fontStyle: "italic" }}>
-                    {sub.fullDescription}
-                  </p>
+                  <div style={{ padding: "18px 20px" }}>
+                    {/* Name */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                      <span style={{ width: 18, height: 3, background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
+                      <p style={{ fontSize: 20, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>{sub.name}</p>
+                    </div>
 
-                  {/* Additional info */}
-                  <div style={{
-                    background: "#FFF5F0", border: "1px solid #FFE4D4",
-                    borderRadius: 6, padding: "8px 14px", marginBottom: 14, fontSize: 12, color: "#666",
-                  }}>
-                    <span style={{ fontWeight: 700, color: "#444" }}>Additional Information: </span>
-                    Production Capacity: {sub.productionCapacity} &nbsp;·&nbsp; Delivery Time: {sub.deliveryTime}
-                  </div>
+                    {/* Price */}
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, margin: "6px 0 8px" }}>
+                      <span style={{ fontSize: 24, fontWeight: 800, color: ORANGE }}>{sub.price}</span>
+                      <span style={{ fontSize: 12, color: "#999" }}>Get Latest Price</span>
+                    </div>
 
-                  {/* CTA buttons */}
-                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                    <a href="/contact" style={{
-                      background: ORANGE, color: "#fff", border: "none", padding: "10px 20px",
-                      borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer",
-                      textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8,
+                    <p style={{ fontSize: 14, color: "#666", lineHeight: 1.7, margin: "0 0 14px" }}>{sub.desc}</p>
+
+                    {/* Additional Info - 4-5 lines about the spring */}
+                    <div style={{
+                      background: "#FFF8F5",
+                      border: "1px solid #FFE4D4",
+                      borderRadius: 8,
+                      padding: "12px 16px",
+                      marginBottom: 14,
                     }}>
-                      Get Best Quote <ArrowRight size={14} />
-                    </a>
-                    <a href="/contact" style={{
-                      background: "#FFF0E6", color: ORANGE, border: `1px solid ${ORANGE}22`,
-                      padding: "10px 20px", borderRadius: 8, fontSize: 13, fontWeight: 600,
-                      cursor: "pointer", textDecoration: "none",
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                        <Info size={16} color={ORANGE} />
+                        <span style={{ fontSize: 13, fontWeight: 700, color: "#444" }}>About this spring</span>
+                      </div>
+                      <p style={{ fontSize: 13, color: "#555", lineHeight: 1.7, margin: 0 }}>
+                        {springInfo}
+                      </p>
+                    </div>
+
+                    {/* Details table - Compact */}
+                    <div style={{
+                      background: "#FBF8F5", border: "1px solid #F0EBE5",
+                      borderRadius: 8, padding: "12px 14px", marginBottom: 14,
                     }}>
-                      Yes! I am Interested
-                    </a>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "4px 12px", fontSize: 12.5 }}>
+                        {[
+                          ["MOQ", sub.moq],
+                          ["Material", sub.material],
+                          ["Usage", sub.usage],
+                          ["Shape", sub.shape],
+                          ["Country", sub.countryOfOrigin],
+                          ["Delivery", sub.deliveryTime],
+                        ].map(([label, value]) => (
+                          <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "2px 0", gap: 4 }}>
+                            <span style={{ color: "#999", fontSize: 11 }}>{label}:</span>
+                            <span style={{ fontWeight: 600, color: "#333", textAlign: "right", fontSize: 11.5 }}>{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Specifications Table - Always Visible */}
+                    <div style={{
+                      border: "1px solid #E8E8E8",
+                      borderRadius: 8,
+                      overflow: "hidden",
+                      background: "#FAFAFA",
+                      marginBottom: 14,
+                    }}>
+                      <div style={{
+                        background: ORANGE,
+                        color: "#fff",
+                        padding: "8px 14px",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}>
+                        <Table size={14} />
+                        <span>Physical Parameters & Specifications</span>
+                      </div>
+                      <div style={{ padding: "10px 14px" }}>
+                        {specs.parameters.map((param, idx) => (
+                          <div
+                            key={idx}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              padding: "6px 0",
+                              borderBottom: idx < specs.parameters.length - 1 ? "1px solid #F0F0F0" : "none",
+                            }}
+                          >
+                            <span style={{ fontSize: 13, color: "#555", fontWeight: 500 }}>{param.name}</span>
+                            <span style={{ fontSize: 13, color: "#333", fontWeight: 600 }}>{param.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Full description */}
+                    <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, margin: "0 0 12px", fontStyle: "italic", background: "#F8F8F8", padding: "10px 14px", borderRadius: 6 }}>
+                      {sub.fullDescription}
+                    </p>
+
+                    {/* Additional info */}
+                    <div style={{
+                      background: "#FFF5F0", border: "1px solid #FFE4D4",
+                      borderRadius: 6, padding: "8px 14px", marginBottom: 14, fontSize: 12, color: "#666",
+                    }}>
+                      <span style={{ fontWeight: 700, color: "#444" }}>Additional Information: </span>
+                      Production Capacity: {sub.productionCapacity} &nbsp;·&nbsp; Delivery Time: {sub.deliveryTime}
+                    </div>
+
+                    {/* CTA buttons */}
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                      <a href="/contact" style={{
+                        background: ORANGE, color: "#fff", border: "none", padding: "10px 20px",
+                        borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: "pointer",
+                        textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8,
+                      }}>
+                        Get Best Quote <ArrowRight size={14} />
+                      </a>
+                      <a href="/contact" style={{
+                        background: "#FFF0E6", color: ORANGE, border: `1px solid ${ORANGE}22`,
+                        padding: "10px 20px", borderRadius: 8, fontSize: 13, fontWeight: 600,
+                        cursor: "pointer", textDecoration: "none",
+                      }}>
+                        Yes! I am Interested
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -610,40 +879,42 @@ export default function Products() {
             </p>
           </div>
 
-          {/* Cards */}
+          {/* Cards - ENHANCED with larger size */}
           <div className="sp-grid">
             {categories.map((cat) => (
               <div key={cat.id} className="sp-card" onClick={() => setActiveCat(cat)}>
-                <ImgSlot src={cat.image} alt={cat.name} height={180} />
+                {/* Increased image height */}
+                <ImgSlot src={cat.image} alt={cat.name} height={200} />
 
-                <div style={{ padding: "16px 18px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+                <div style={{ padding: "18px 20px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 10 }}>
                     <span style={{
-                      width: 10, height: 10, borderRadius: "50%", background: ORANGE,
-                      flexShrink: 0, marginTop: 5,
+                      width: 12, height: 12, borderRadius: "50%", background: ORANGE,
+                      flexShrink: 0, marginTop: 4,
                     }} />
-                    <p style={{ fontSize: 15, fontWeight: 700, color: "#1A1A1A", margin: 0, lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 17, fontWeight: 700, color: "#1A1A1A", margin: 0, lineHeight: 1.4 }}>
                       {cat.name}
                     </p>
                   </div>
 
-                  <p style={{ fontSize: 13, color: "#777", lineHeight: 1.6, margin: "0 0 16px", flex: 1 }}>
+                  <p style={{ fontSize: 13.5, color: "#777", lineHeight: 1.6, margin: "0 0 16px", flex: 1 }}>
                     {cat.shortDesc}
                   </p>
 
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <span style={{
-                      fontSize: 11, fontWeight: 600,
+                      fontSize: 12, fontWeight: 600,
                       background: "#FFF0E6", color: ORANGE,
-                      padding: "4px 10px", borderRadius: 12,
+                      padding: "5px 12px", borderRadius: 12,
                     }}>
                       {cat.subtypes.length} variants
                     </span>
                     <button
                       className="sp-see-btn"
+                      style={{ fontSize: 14 }}
                       onClick={(e) => { e.stopPropagation(); setActiveCat(cat); }}
                     >
-                      See more <ChevronRight size={14} />
+                      See more <ChevronRight size={16} />
                     </button>
                   </div>
                 </div>

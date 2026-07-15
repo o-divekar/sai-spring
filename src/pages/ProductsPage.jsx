@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   ArrowLeft, CheckCircle, ChevronRight, X, ZoomIn, Plus, Minus, 
   ArrowRight, Menu, Home, Package, Settings, Wrench, 
-  Zap, Cpu, Factory, Truck, Shield, Award, ChevronDown
+  Zap, Cpu, Factory, Truck, Shield, Award, ChevronDown,
+  Table, Info
 } from "lucide-react";
 
 // ─── IMAGE IMPORTS ────────────────────────────────────────────────────────
@@ -51,6 +52,214 @@ import wireformingSpringImage from "../assets/images/wire_forming_spring/wire_fo
 import wireformImage from "../assets/images/wire_from_spring/wire_from.png";
 
 const ORANGE = "#EA580C";
+
+// ─── ADDITIONAL INFO FOR EACH SPRING ────────────────────────────────────
+const getSpringInfo = (subtypeName) => {
+  const info = {
+    "SS Compression Spring": "SS Compression Springs are manufactured from high-grade stainless steel, offering excellent corrosion resistance and durability. They are ideal for applications in food processing, pharmaceutical equipment, and marine environments where moisture and chemical exposure are concerns. These springs maintain consistent performance across a wide temperature range and provide reliable load-bearing capacity.",
+    
+    "Helical Compression Spring": "Helical Compression Springs feature a uniform pitch helix design that delivers consistent load distribution across the entire compression range. They are precision-engineered to provide reliable force resistance in automotive suspensions, industrial machinery, and valve systems. Their design allows for smooth compression and return, making them suitable for high-cycle applications.",
+    
+    "Iron Coil Springs": "Iron Coil Springs are heavy-duty cast iron springs engineered for high static load applications in press machines, stamping equipment, and heavy industrial machinery. They offer exceptional durability and resistance to deformation under extreme loads. These springs are ideal for environments requiring high load capacity and long service life.",
+    
+    "Cast Iron Spring": "Cast Iron Springs are designed for high-compression mechanical systems where rigidity and mass are critical factors. They provide excellent vibration damping and shock absorption properties, making them suitable for heavy machinery and industrial equipment. These springs offer superior wear resistance and dimensional stability.",
+    
+    "Mild Steel Compression Spring": "Mild Steel Compression Springs offer a cost-effective solution for standard industrial applications. They are versatile and widely used in general engineering, automotive, and manufacturing sectors. These springs provide reliable performance with good fatigue life and are easily customizable to meet specific requirements.",
+    
+    "Industrial Metal Spring": "Industrial Metal Springs are heavy-gauge coils designed for demanding factory environments requiring long cycle life. They are manufactured from alloy steel with enhanced fatigue resistance and can withstand extreme operating conditions. These springs are ideal for heavy equipment, mining machinery, and high-load industrial applications.",
+    
+    "Oil Seal Spring": "Oil Seal Springs are precision-engineered to retain lubricant in rotating shaft assemblies. They feature precision ground ends for leak-proof mating and are essential components in automotive engines, industrial pumps, and hydraulic systems. These springs maintain consistent pressure on seals to prevent fluid leakage.",
+    
+    "Double Torsion Spring": "Double Torsion Springs feature a dual-leg design that delivers balanced rotational force for symmetrical hinge and latch systems. They provide consistent torque output and are ideal for applications requiring equal force distribution on both sides. These springs are commonly used in automotive seating, garage doors, and industrial closures.",
+    
+    "Extension Springs": "Extension Springs absorb and store tensile energy, making them ideal for pull-back mechanisms in agricultural machinery, garage doors, and industrial equipment. They feature precision hooks and loops that provide reliable energy absorption and return force. These springs offer high fatigue life and smooth operation.",
+    
+    "Torsion Spring with Rotation Bend": "Torsion Springs with Rotation Bend feature custom bend angles and leg lengths for precise actuation in clips, hinges, and door closers. They provide controlled rotational force and are designed for applications requiring specific torque values. These springs are precision-wound to deliver consistent performance.",
+    
+    "Industrial Torsion Spring": "Industrial Torsion Springs deliver heavy-duty torque for industrial door systems, valve actuators, and garage mechanisms. They are manufactured from alloy steel with enhanced fatigue resistance and can withstand high-cycle applications. These springs provide reliable rotational force in demanding environments.",
+    
+    "Electrical Switches Springs": "Electrical Switches Springs are miniature precision springs engineered for high-cycle fatigue life in toggle, rocker, and micro-switch assemblies. They provide consistent return force and reliable electrical contact in circuit breakers and switching devices. These springs are essential components in the electrical industry.",
+    
+    "Electric Switch Spring": "Electric Switch Springs are micro-precision coils with consistent return force for circuit breakers and electrical contactors. They are manufactured from music wire with enhanced conductivity and fatigue resistance. These springs ensure reliable electrical contact and switching performance."
+  };
+  
+  return info[subtypeName] || "Precision-engineered spring solution for industrial applications. Manufactured with high-quality materials and advanced production techniques to ensure reliability and performance.";
+};
+
+// ─── SPECIFICATION DATA ────────────────────────────────────────────────────
+const getSpecifications = (subtypeName) => {
+  const specs = {
+    "SS Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "5 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "4 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 500 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "SS 302, SS 304, SS 316" },
+      ]
+    },
+    "Helical Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 300 mm" },
+        { name: "Internal Diameter (Di)", value: "2.5 mm - 280 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 600 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 1000 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Iron Coil Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "2 mm - 30 mm" },
+        { name: "External Diameter (De)", value: "10 mm - 350 mm" },
+        { name: "Internal Diameter (Di)", value: "8 mm - 320 mm" },
+        { name: "Free Length (Lo)", value: "20 mm - 800 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "1 - 800 N/mm" },
+        { name: "Maximum Deflection", value: "65% of free length" },
+        { name: "Material Grade", value: "Cast Iron, Ductile Iron" },
+      ]
+    },
+    "Cast Iron Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "2 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "8 mm - 280 mm" },
+        { name: "Internal Diameter (Di)", value: "6 mm - 260 mm" },
+        { name: "Free Length (Lo)", value: "15 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 600 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Cast Iron, SG Iron" },
+      ]
+    },
+    "Mild Steel Compression Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "5 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "4 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 400 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.3 - 400 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Mild Steel EN8, EN9" },
+      ]
+    },
+    "Industrial Metal Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "1 mm - 30 mm" },
+        { name: "External Diameter (De)", value: "6 mm - 300 mm" },
+        { name: "Internal Diameter (Di)", value: "5 mm - 280 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 600 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 800 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Alloy Steel, Spring Steel" },
+      ]
+    },
+    "Oil Seal Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 10 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 150 mm" },
+        { name: "Internal Diameter (Di)", value: "2.5 mm - 140 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 300 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 300 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "SS 304, SS 316" },
+      ]
+    },
+    "Double Torsion Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.5 mm - 15 mm" },
+        { name: "External Diameter (De)", value: "4 mm - 180 mm" },
+        { name: "Internal Diameter (Di)", value: "3 mm - 160 mm" },
+        { name: "Free Length (Lo)", value: "8 mm - 400 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 500 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Extension Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 20 mm" },
+        { name: "External Diameter (De)", value: "4 mm - 200 mm" },
+        { name: "Internal Diameter (Di)", value: "3 mm - 180 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.3 - 600 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS, Alloy Steel" },
+      ]
+    },
+    "Torsion Spring with Rotation Bend": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.3 mm - 12 mm" },
+        { name: "External Diameter (De)", value: "3 mm - 150 mm" },
+        { name: "Internal Diameter (Di)", value: "2 mm - 140 mm" },
+        { name: "Free Length (Lo)", value: "5 mm - 300 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.2 - 400 N/mm" },
+        { name: "Maximum Deflection", value: "70% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS" },
+      ]
+    },
+    "Industrial Torsion Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "1 mm - 25 mm" },
+        { name: "External Diameter (De)", value: "6 mm - 250 mm" },
+        { name: "Internal Diameter (Di)", value: "5 mm - 230 mm" },
+        { name: "Free Length (Lo)", value: "10 mm - 500 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.5 - 700 N/mm" },
+        { name: "Maximum Deflection", value: "75% of free length" },
+        { name: "Material Grade", value: "Alloy Steel, Spring Steel" },
+      ]
+    },
+    "Electrical Switches Springs": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.1 mm - 5 mm" },
+        { name: "External Diameter (De)", value: "1 mm - 80 mm" },
+        { name: "Internal Diameter (Di)", value: "0.8 mm - 75 mm" },
+        { name: "Free Length (Lo)", value: "2 mm - 150 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.1 - 200 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS 304" },
+      ]
+    },
+    "Electric Switch Spring": {
+      parameters: [
+        { name: "Wire Diameter (d)", value: "0.1 mm - 4 mm" },
+        { name: "External Diameter (De)", value: "1 mm - 60 mm" },
+        { name: "Internal Diameter (Di)", value: "0.8 mm - 55 mm" },
+        { name: "Free Length (Lo)", value: "2 mm - 120 mm" },
+        { name: "Solid Length (Ls)", value: "As per design" },
+        { name: "Spring Rate (R)", value: "0.1 - 150 N/mm" },
+        { name: "Maximum Deflection", value: "80% of free length" },
+        { name: "Material Grade", value: "Music Wire, SS 304" },
+      ]
+    }
+  };
+
+  return specs[subtypeName] || {
+    parameters: [
+      { name: "Wire Diameter (d)", value: "As per requirement" },
+      { name: "External Diameter (De)", value: "As per requirement" },
+      { name: "Internal Diameter (Di)", value: "As per requirement" },
+      { name: "Free Length (Lo)", value: "As per requirement" },
+      { name: "Solid Length (Ls)", value: "As per design" },
+      { name: "Spring Rate (R)", value: "As per requirement" },
+      { name: "Maximum Deflection", value: "As per design" },
+      { name: "Material Grade", value: "As per requirement" },
+    ]
+  };
+};
 
 // ─── PRODUCT DATA ──────────────────────────────────────────────────────────
 const products = [
@@ -305,7 +514,6 @@ function SideMenu({ isOpen, onClose, products, onProductSelect }) {
 
   return (
     <>
-      {/* Overlay */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -318,7 +526,6 @@ function SideMenu({ isOpen, onClose, products, onProductSelect }) {
         />
       )}
 
-      {/* Side Menu */}
       <div
         style={{
           position: "fixed",
@@ -337,7 +544,6 @@ function SideMenu({ isOpen, onClose, products, onProductSelect }) {
           flexDirection: "column",
         }}
       >
-        {/* Menu Header */}
         <div
           style={{
             padding: "20px 24px",
@@ -375,9 +581,7 @@ function SideMenu({ isOpen, onClose, products, onProductSelect }) {
           </button>
         </div>
 
-        {/* Menu Content */}
         <div style={{ padding: "16px 0", flex: 1 }}>
-          {/* Home Link */}
           <Link
             to="/"
             onClick={onClose}
@@ -400,7 +604,6 @@ function SideMenu({ isOpen, onClose, products, onProductSelect }) {
             Home
           </Link>
 
-          {/* Category Links */}
           {categories.map((category) => {
             const categoryProducts = products.filter(p => p.category === category);
             const isExpanded = expandedCategory === category;
@@ -696,6 +899,7 @@ function ImageZoomModal({ src, alt, onClose }) {
 function SubtypeModal({ product, onClose }) {
   const [zoomImage, setZoomImage] = useState(null);
   if (!product) return null;
+  
   return (
     <>
       <div
@@ -717,7 +921,7 @@ function SubtypeModal({ product, onClose }) {
             background: "#fff",
             borderRadius: 16,
             width: "100%",
-            maxWidth: 640,
+            maxWidth: 780,
             maxHeight: "90vh",
             overflowY: "auto",
             boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
@@ -779,140 +983,207 @@ function SubtypeModal({ product, onClose }) {
             </button>
           </div>
 
-          {/* Subtype cards */}
-          <div style={{ padding: "14px 18px 24px", display: "flex", flexDirection: "column", gap: 14 }}>
-            {product.subtypes.map((sub, i) => (
-              <div
-                key={i}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #EAEAEA",
-                  borderRadius: 12,
-                  overflow: "hidden",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                }}
-              >
-                <div style={{ position: "relative" }}>
-                  <ImgSlot
-                    src={sub.image}
-                    alt={sub.name}
-                    height={150}
-                    onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
-                  />
-                  <div
-                    onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
-                    style={{
-                      position: "absolute",
-                      bottom: 8,
-                      right: 8,
-                      background: "rgba(0,0,0,0.55)",
-                      color: "#fff",
-                      padding: "3px 8px",
-                      borderRadius: 4,
-                      fontSize: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 4,
-                      cursor: "pointer",
-                    }}
-                  >
-                    <ZoomIn size={11} /> Click to zoom
-                  </div>
-                </div>
-                <div style={{ padding: "12px 14px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <span
-                      style={{
-                        width: 14,
-                        height: 3,
-                        background: ORANGE,
-                        borderRadius: 2,
-                        flexShrink: 0,
-                      }}
+          {/* Subtype cards - ENHANCED with specs table */}
+          <div style={{ padding: "14px 18px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
+            {product.subtypes.map((sub, i) => {
+              const specs = getSpecifications(sub.name);
+              const springInfo = getSpringInfo(sub.name);
+
+              return (
+                <div
+                  key={i}
+                  style={{
+                    background: "#fff",
+                    border: "1px solid #EAEAEA",
+                    borderRadius: 12,
+                    overflow: "hidden",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                  }}
+                >
+                  <div style={{ position: "relative" }}>
+                    <ImgSlot
+                      src={sub.image}
+                      alt={sub.name}
+                      height={180}
+                      onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
                     />
-                    <p style={{ fontSize: 15, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>
-                      {sub.name}
-                    </p>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 8, margin: "4px 0 6px" }}>
-                    <span style={{ fontSize: 19, fontWeight: 800, color: ORANGE }}>{sub.price}</span>
-                    <span style={{ fontSize: 11, color: "#999" }}>Get Latest Price</span>
-                  </div>
-                  <p style={{ fontSize: 12.5, color: "#666", lineHeight: 1.6, margin: "0 0 10px" }}>
-                    {sub.desc}
-                  </p>
-                  <div
-                    style={{
-                      background: "#FBF8F5",
-                      border: "1px solid #F0EBE5",
-                      borderRadius: 8,
-                      padding: "10px 12px",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3px 12px", fontSize: 11.5 }}>
-                      {[
-                        ["Min. Order Qty", sub.moq],
-                        ["Size", sub.size],
-                        ["Material", sub.material],
-                        ["Usage", sub.usage],
-                        ["Production Capacity", sub.productionCapacity],
-                        ["Delivery Time", sub.deliveryTime],
-                      ].map(([label, value]) => (
-                        <div
-                          key={label}
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            padding: "2px 0",
-                            gap: 4,
-                          }}
-                        >
-                          <span style={{ color: "#999" }}>{label}:</span>
-                          <span style={{ fontWeight: 600, color: "#333", textAlign: "right" }}>
-                            {value}
-                          </span>
-                        </div>
-                      ))}
+                    <div
+                      onClick={() => setZoomImage({ src: sub.image, alt: sub.name })}
+                      style={{
+                        position: "absolute",
+                        bottom: 8,
+                        right: 8,
+                        background: "rgba(0,0,0,0.55)",
+                        color: "#fff",
+                        padding: "3px 8px",
+                        borderRadius: 4,
+                        fontSize: 10,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        cursor: "pointer",
+                      }}
+                    >
+                      <ZoomIn size={11} /> Click to zoom
                     </div>
                   </div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <Link
-                      to="/contact"
+
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                      <span
+                        style={{
+                          width: 14,
+                          height: 3,
+                          background: ORANGE,
+                          borderRadius: 2,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <p style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>
+                        {sub.name}
+                      </p>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8, margin: "4px 0 6px" }}>
+                      <span style={{ fontSize: 20, fontWeight: 800, color: ORANGE }}>{sub.price}</span>
+                      <span style={{ fontSize: 11, color: "#999" }}>Get Latest Price</span>
+                    </div>
+
+                    <p style={{ fontSize: 13, color: "#666", lineHeight: 1.6, margin: "0 0 12px" }}>
+                      {sub.desc}
+                    </p>
+
+                    {/* Additional Info - About this spring */}
+                    <div style={{
+                      background: "#FFF8F5",
+                      border: "1px solid #FFE4D4",
+                      borderRadius: 8,
+                      padding: "10px 14px",
+                      marginBottom: 12,
+                    }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                        <Info size={14} color={ORANGE} />
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "#444" }}>About this spring</span>
+                      </div>
+                      <p style={{ fontSize: 12.5, color: "#555", lineHeight: 1.6, margin: 0 }}>
+                        {springInfo}
+                      </p>
+                    </div>
+
+                    {/* Details table */}
+                    <div
                       style={{
+                        background: "#FBF8F5",
+                        border: "1px solid #F0EBE5",
+                        borderRadius: 8,
+                        padding: "10px 12px",
+                        marginBottom: 12,
+                      }}
+                    >
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3px 12px", fontSize: 11.5 }}>
+                        {[
+                          ["Min. Order Qty", sub.moq],
+                          ["Size", sub.size],
+                          ["Material", sub.material],
+                          ["Usage", sub.usage],
+                          ["Production Capacity", sub.productionCapacity],
+                          ["Delivery Time", sub.deliveryTime],
+                        ].map(([label, value]) => (
+                          <div
+                            key={label}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              padding: "2px 0",
+                              gap: 4,
+                            }}
+                          >
+                            <span style={{ color: "#999" }}>{label}:</span>
+                            <span style={{ fontWeight: 600, color: "#333", textAlign: "right" }}>
+                              {value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Specifications Table - Always Visible */}
+                    <div style={{
+                      border: "1px solid #E8E8E8",
+                      borderRadius: 8,
+                      overflow: "hidden",
+                      background: "#FAFAFA",
+                      marginBottom: 12,
+                    }}>
+                      <div style={{
                         background: ORANGE,
                         color: "#fff",
-                        padding: "8px 16px",
-                        borderRadius: 8,
-                        fontSize: 12,
+                        padding: "6px 12px",
+                        fontSize: 11,
                         fontWeight: 700,
-                        textDecoration: "none",
-                        display: "inline-flex",
+                        display: "flex",
                         alignItems: "center",
                         gap: 6,
-                      }}
-                    >
-                      Get Best Quote <ArrowRight size={13} />
-                    </Link>
-                    <Link
-                      to="/contact"
-                      style={{
-                        background: "#FFF0E6",
-                        color: ORANGE,
-                        border: `1px solid ${ORANGE}33`,
-                        padding: "8px 16px",
-                        borderRadius: 8,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        textDecoration: "none",
-                      }}
-                    >
-                      Yes! I am Interested
-                    </Link>
+                      }}>
+                        <Table size={13} />
+                        <span>Physical Parameters & Specifications</span>
+                      </div>
+                      <div style={{ padding: "8px 12px" }}>
+                        {specs.parameters.map((param, idx) => (
+                          <div
+                            key={idx}
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              padding: "4px 0",
+                              borderBottom: idx < specs.parameters.length - 1 ? "1px solid #F0F0F0" : "none",
+                            }}
+                          >
+                            <span style={{ fontSize: 12, color: "#555", fontWeight: 500 }}>{param.name}</span>
+                            <span style={{ fontSize: 12, color: "#333", fontWeight: 600 }}>{param.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <Link
+                        to="/contact"
+                        style={{
+                          background: ORANGE,
+                          color: "#fff",
+                          padding: "8px 16px",
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 700,
+                          textDecoration: "none",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                        }}
+                      >
+                        Get Best Quote <ArrowRight size={13} />
+                      </Link>
+                      <Link
+                        to="/contact"
+                        style={{
+                          background: "#FFF0E6",
+                          color: ORANGE,
+                          border: `1px solid ${ORANGE}33`,
+                          padding: "8px 16px",
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          textDecoration: "none",
+                        }}
+                      >
+                        Yes! I am Interested
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -956,29 +1227,29 @@ export default function ProductsPage() {
         .pp-card {
           background: #fff;
           border: 1px solid #E8E8E8;
-          border-top: 3px solid ${ORANGE};
-          border-radius: 14px;
+          border-top: 4px solid ${ORANGE};
+          border-radius: 16px;
           overflow: hidden;
           cursor: pointer;
-          transition: box-shadow 0.25s, transform 0.25s;
+          transition: box-shadow 0.3s, transform 0.3s;
           display: flex;
           flex-direction: column;
           font-family: 'Inter','Segoe UI',sans-serif;
         }
         .pp-card:hover {
-          box-shadow: 0 8px 28px rgba(234,88,12,0.13);
-          transform: translateY(-4px);
+          box-shadow: 0 10px 32px rgba(234,88,12,0.16);
+          transform: translateY(-6px);
         }
         .pp-see-btn {
           background: none; border: none; padding: 0;
           cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
-          font-size: 12px; font-weight: 700; color: ${ORANGE}; font-family: inherit;
+          font-size: 13px; font-weight: 700; color: ${ORANGE}; font-family: inherit;
         }
         .pp-see-btn:hover { opacity: 0.75; }
         .pp-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          gap: 16px;
+          gap: 24px;
         }
         .category-btn {
           padding: 6px 16px;
@@ -1001,23 +1272,23 @@ export default function ProductsPage() {
           border-color: ${ORANGE};
           color: #fff;
         }
-        @media (max-width: 1200px) { .pp-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 900px)  { .pp-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 640px)  { .pp-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-        @media (max-width: 400px)  { .pp-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1200px) { .pp-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+        @media (max-width: 992px) { .pp-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+        @media (max-width: 700px)  { .pp-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+        @media (max-width: 420px)  { .pp-grid { grid-template-columns: 1fr; gap: 12px; } }
       `}</style>
 
       <div
         style={{
           background: "#FAFAF8",
           minHeight: "100vh",
-          padding: "48px 20px 64px",
+          padding: "56px 24px 64px",
           fontFamily: "'Inter','Segoe UI',sans-serif",
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto" }}>
           {/* Header with Menu Button */}
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
               <button
                 onClick={() => setIsSideMenuOpen(true)}
@@ -1069,44 +1340,44 @@ export default function ProductsPage() {
                 display: "inline-block",
                 background: "#FFF0E6",
                 color: ORANGE,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                padding: "4px 14px",
+                padding: "5px 18px",
                 borderRadius: 20,
-                marginBottom: 12,
+                marginBottom: 14,
               }}
             >
               All Products
             </span>
             <h1
               style={{
-                fontSize: "clamp(28px, 4vw, 44px)",
+                fontSize: "clamp(32px, 4.5vw, 44px)",
                 fontWeight: 800,
                 color: "#111",
                 letterSpacing: "-0.02em",
-                margin: "0 0 10px",
+                margin: "0 0 12px",
               }}
             >
               Our Products
             </h1>
             <div
               style={{
-                width: 40,
+                width: 48,
                 height: 3,
                 background: ORANGE,
                 borderRadius: 2,
-                margin: "0 auto 12px",
+                margin: "0 auto 14px",
               }}
             />
             <p
               style={{
-                fontSize: 15,
+                fontSize: 16,
                 color: "#666",
                 maxWidth: 480,
                 margin: "0 auto",
-                lineHeight: 1.6,
+                lineHeight: 1.7,
               }}
             >
               Explore our complete range of {filteredProducts.length} precision-engineered spring solutions
@@ -1134,7 +1405,7 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Grid */}
+          {/* Grid - ENHANCED with larger size */}
           <div className="pp-grid">
             {filteredProducts.map((product) => (
               <div
@@ -1142,34 +1413,34 @@ export default function ProductsPage() {
                 className="pp-card"
                 onClick={() => setActiveProduct(product)}
               >
-                <ImgSlot src={product.image} alt={product.name} height={130} />
+                <ImgSlot src={product.image} alt={product.name} height={160} />
 
                 <div
                   style={{
-                    padding: "12px 14px 14px",
+                    padding: "16px 18px 20px",
                     flex: 1,
                     display: "flex",
                     flexDirection: "column",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 7, marginBottom: 5 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
                     <span
                       style={{
-                        width: 7,
-                        height: 7,
+                        width: 10,
+                        height: 10,
                         borderRadius: "50%",
                         background: ORANGE,
                         flexShrink: 0,
-                        marginTop: 4,
+                        marginTop: 5,
                       }}
                     />
                     <p
                       style={{
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: 700,
                         color: "#1A1A1A",
                         margin: 0,
-                        lineHeight: 1.3,
+                        lineHeight: 1.4,
                       }}
                     >
                       {product.name}
@@ -1177,10 +1448,10 @@ export default function ProductsPage() {
                   </div>
                   <p
                     style={{
-                      fontSize: 11.5,
+                      fontSize: 13,
                       color: "#777",
-                      lineHeight: 1.55,
-                      margin: "0 0 10px",
+                      lineHeight: 1.6,
+                      margin: "0 0 16px",
                       flex: 1,
                     }}
                   >
@@ -1189,24 +1460,25 @@ export default function ProductsPage() {
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: 600,
                         background: "#FFF0E6",
                         color: ORANGE,
-                        padding: "3px 8px",
-                        borderRadius: 10,
+                        padding: "4px 10px",
+                        borderRadius: 12,
                       }}
                     >
                       {product.subtypes.length} {product.subtypes.length === 1 ? "variant" : "variants"}
                     </span>
                     <button
                       className="pp-see-btn"
+                      style={{ fontSize: 14 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         setActiveProduct(product);
                       }}
                     >
-                      See more <ChevronRight size={13} />
+                      See more <ChevronRight size={16} />
                     </button>
                   </div>
                 </div>
