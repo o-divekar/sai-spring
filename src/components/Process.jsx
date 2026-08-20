@@ -179,12 +179,9 @@ export default function Process() {
                 Every spring undergoes rigorous testing before leaving our facility
               </p>
             </div>
-            <div className="flex gap-4">
-              <div className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full font-semibold">
+            <div className="flex gap-4 items-center justify-center md:justify-end">
+              <div className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full font-semibold align-middle text-sm md:text-base">
                 ISO 9001:2015
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full font-semibold">
-                IATF 16949
               </div>
             </div>
           </div>

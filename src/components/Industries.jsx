@@ -16,6 +16,8 @@ import engineeringImage from "../assets/images/industries_card/engineering.jpg";
 import industrialImage from "../assets/images/industries_card/industrial_machine.jpeg";
 import shippingImage from "../assets/images/industries_card/shipping.jpg";
 import switchImage from "../assets/images/industries_card/switch_gear.png";
+import toyImage from "../assets/images/industries_card/toy_image.jpeg";
+import doorSpringImage from "../assets/images/industries_card/door_spring.jpeg";
 
 // ─── INDUSTRY DATA ──────────────────────────────────────────────────────────
 const industries = [
@@ -39,16 +41,22 @@ const industries = [
     fullDescription: "Our electrical springs are designed for high conductivity and reliability in switchgear, circuit breakers, and electrical contact systems. They ensure consistent electrical contact and long service life.",
     keyFeatures: ["High conductivity", "Low contact resistance", "High cycle life", "Arc resistant"]
   },
-  { 
-    id: 3,
-    name: "Electronics", 
-    icon: Cpu,
-    image: electronicImage,
-    description: "Miniature precision springs for electronic devices and equipment",
-    applications: ["Connectors", "Battery Contacts", "Sensors"],
-    fullDescription: "We manufacture miniature precision springs for electronic devices including connectors, battery contacts, and sensor applications. Our springs are designed for compact spaces and reliable performance.",
-    keyFeatures: ["Miniature size", "Precise force control", "High fatigue life", "Custom designs"]
-  },
+  {
+  id: 3,
+  name: "Door Springs",
+  icon: Wrench,
+  image: doorSpringImage,
+  description: "Reliable and durable springs designed for smooth and controlled door operation",
+  applications: ["Door Hinges", "Door Closers", "Locking Mechanisms"],
+  fullDescription: "We manufacture high-quality door springs designed to provide smooth, controlled, and reliable movement in a variety of door applications. Our springs are engineered for consistent tension, durability, and long-lasting performance in residential, commercial, and industrial door systems.",
+  keyFeatures: [
+    "High durability",
+    "Consistent spring tension",
+    "Smooth door operation",
+    "Corrosion-resistant materials",
+    "Custom sizes and specifications"
+  ]
+},
   { 
     id: 4,
     name: "Industrial Machinery", 
@@ -69,16 +77,22 @@ const industries = [
     fullDescription: "We provide custom spring solutions for manufacturing processes including assembly lines, automation systems, and tooling applications. Our springs are designed to improve efficiency and productivity.",
     keyFeatures: ["Custom designs", "Rapid prototyping", "Cost-effective", "Bulk production"]
   },
-  { 
-    id: 6,
-    name: "Engineering", 
-    icon: Wrench,
-    image: engineeringImage,
-    description: "Technical spring solutions for specialized engineering applications",
-    applications: ["Prototyping", "R&D", "Custom Designs"],
-    fullDescription: "We offer technical spring solutions for specialized engineering applications including prototyping, R&D, and custom designs. Our team works closely with engineers to develop optimal solutions.",
-    keyFeatures: ["Precision engineering", "Custom materials", "Advanced testing", "Technical support"]
-  }
+  {
+  id: 6,
+  name: "Toy Springs",
+  icon: Wrench,
+  image: toyImage,
+  description: "Precision springs designed for toys, games, and play-based products",
+  applications: ["Toys & Games", "Moving Mechanisms", "Educational Toys"],
+  fullDescription: "We manufacture precision toy springs designed for a wide range of toys, games, and play-based products. Our springs provide reliable movement, flexibility, and controlled tension for mechanisms such as moving parts, launching systems, buttons, and interactive components.",
+  keyFeatures: [
+    "Precision manufacturing",
+    "Consistent spring performance",
+    "Custom sizes and specifications",
+    "Durable materials",
+    "Smooth and reliable operation"
+  ]
+}
 ];
 
 export default function Industries() {

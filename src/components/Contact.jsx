@@ -1,11 +1,12 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
-
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    subject: "",
     requirement: ""
   });
   
@@ -18,15 +19,42 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted:", formData);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.requirement,
+      },
+      {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      }
+    );
+
     setIsSubmitted(true);
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      requirement: ""
+    });
+
     setTimeout(() => setIsSubmitted(false), 3000);
-    // Reset form
-    setFormData({ name: "", email: "", phone: "", requirement: "" });
-  };
+
+  } catch (error) {
+    console.error("EmailJS Error:", error);
+    alert("Failed to send inquiry. Please try again.");
+  }
+};
 
   return (
     <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-20 px-4">
@@ -134,6 +162,22 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91 XXXXXXXXXX"
+                  className="w-full border-2 border-gray-200 p-3 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 outline-none"
+                />
+              </div>
+                
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Subject *
+                </label>
+
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Enter the subject"
+                  required
                   className="w-full border-2 border-gray-200 p-3 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all duration-200 outline-none"
                 />
               </div>

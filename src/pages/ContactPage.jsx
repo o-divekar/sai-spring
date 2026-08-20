@@ -1,4 +1,5 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,24 +20,45 @@ export default function ContactPage() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    setTimeout(() => {
-      console.log("Form submitted:", formData);
-      setIsSubmitted(true);
-      setIsSubmitting(false);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1000);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      }
+    );
+
+    setIsSubmitted(true);
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: ""
+    });
+
+    setTimeout(() => setIsSubmitted(false), 5000);
+
+  } catch (error) {
+    console.error("EmailJS Error:", error);
+    alert("Failed to send inquiry. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Google Maps embed URL for the specific location
   const mapLocation = "Murli+Upadhay+Estate,+Visheshwer+Nagar,+Near+Atithi+Hotel,+Off.+Aarey+Road,+Goregaon+East,+Mumbai-400063,+Maharashtra";
