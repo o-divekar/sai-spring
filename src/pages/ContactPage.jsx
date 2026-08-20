@@ -21,48 +21,41 @@ export default function ContactPage() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    await emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID,
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-      {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
-      },
-      {
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        {
           publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-      }
-    );
+        }
+      );
 
-    setIsSubmitted(true);
-
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: ""
-    });
-
-    setTimeout(() => setIsSubmitted(false), 5000);
-
-  } catch (error) {
-    console.error("EmailJS Error:", error);
-    alert("Failed to send inquiry. Please try again.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
-  // Google Maps embed URL for the specific location
-  const mapLocation = "Murli+Upadhay+Estate,+Visheshwer+Nagar,+Near+Atithi+Hotel,+Off.+Aarey+Road,+Goregaon+East,+Mumbai-400063,+Maharashtra";
-  const googleMapsLink = "https://maps.google.com/?q=Murli+Upadhay+Estate,+Visheshwer+Nagar,+Near+Atithi+Hotel,+Off.+Aarey+Road,+Goregaon+East,+Mumbai-400063,+Maharashtra";
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      alert("Failed to send inquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white">
@@ -219,20 +212,10 @@ export default function ContactPage() {
                 <p className="text-gray-600">Sunday: Closed</p>
               </div>
 
-              {/* Social Media Links */}
+              {/* Social Media Links – only LinkedIn and Instagram (Facebook & Twitter removed) */}
               <div className="pt-4 border-t border-gray-200">
                 <p className="font-semibold text-gray-800 mb-3">Connect With Us</p>
                 <div className="flex gap-3">
-                  <a href="#" className="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-                    </svg>
-                  </a>
-                  <a href="#" className="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-                    </svg>
-                  </a>
                   <a href="#" className="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
@@ -250,36 +233,8 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Google Maps Section */}
-        <div className="mt-12">
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <iframe
-              title="Office Location - Sai Spring Works"
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.123456789!2d72.866!3d19.166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b9a5a5a5a5a5%3A0x5a5a5a5a5a5a5a5a!2sMurli%20Upadhay%20Estate%2C%20Visheshwer%20Nagar%2C%20Near%20Atithi%20Hotel%2C%20Off.%20Aarey%20Road%2C%20Goregaon%20East%2C%20Mumbai-400063%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890!5m2!1sen!2sin`}
-              width="100%"
-              height="350"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
-            ></iframe>
-            <div className="p-4 bg-gray-50 text-center">
-              <a 
-                href={googleMapsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-orange-600 hover:text-orange-700 font-semibold inline-flex items-center gap-2"
-              >
-                <span>Open in Google Maps</span>
-                <span>→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional Info Card */}
-        <div className="mt-8 bg-orange-50 rounded-2xl p-6 border border-orange-100">
+        {/* Additional Info Card (replaces Google Maps section) */}
+        <div className="mt-12 bg-orange-50 rounded-2xl p-6 border border-orange-100">
           <div className="flex items-start gap-4">
             <div className="text-3xl">🚗</div>
             <div>

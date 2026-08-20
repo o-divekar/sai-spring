@@ -11,10 +11,8 @@ import {
 import { useState } from "react";
 
 import automationImage from "../assets/images/industries_card/automation.jpg";
-import electronicImage from "../assets/images/industries_card/electronic.jpg";
-import engineeringImage from "../assets/images/industries_card/engineering.jpg";
 import industrialImage from "../assets/images/industries_card/industrial_machine.jpeg";
-import shippingImage from "../assets/images/industries_card/shipping.jpg";
+import shippingImage from "../assets/images/industries_card/shipping.jpeg";
 import switchImage from "../assets/images/industries_card/switch_gear.png";
 import toyImage from "../assets/images/industries_card/toy_image.jpeg";
 import doorSpringImage from "../assets/images/industries_card/door_spring.jpeg";
