@@ -28,18 +28,19 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-orange-500/80 backdrop-blur-md text-white px-3 sm:px-6 py-1.5 sticky top-0 z-50 border-b border-white/10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          {/* Logo – slightly smaller to fit compact navbar */}
-          <Link to="/" className="flex items-center">
+      <nav className="bg-orange-500/80 backdrop-blur-md text-white px-3 sm:px-6 py-0 sticky top-0 z-50 border-b border-white/10 min-h-[64px] flex items-center">
+        <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+          {/* Logo – much larger, fills navbar height */}
+          <Link to="/" className="flex items-center h-full py-1">
             <img
-              src="/favicon.svg"
+              src="/favicon.svg"   // Replace with "/logo.svg" if you have a different file
               alt="Sai Spring Works"
-              className="h-12 w-12 md:h-14 md:w-14 object-contain transition-transform duration-300 hover:scale-105"
+              className="h-12 w-auto md:h-16 lg:h-20 object-contain transition-transform duration-300 hover:scale-105"
+              // If your SVG is dark and you need it white, add: filter brightness-0 invert
             />
           </Link>
 
-          {/* Desktop Menu – smaller text */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4 items-center">
             {navLinks.map((link) => (
               <Link
@@ -53,7 +54,6 @@ export default function Navbar() {
               </Link>
             ))}
             
-            {/* Contact Button – smaller */}
             <Link
               to="/contact"
               className={`bg-white text-orange-600 px-4 py-1.5 rounded-full font-semibold text-sm hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl ml-3 ${
@@ -75,7 +75,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Sidebar Menu */}
+      {/* Mobile Sidebar Menu (unchanged) */}
       <div className={`fixed top-0 right-0 h-full w-64 bg-orange-500/95 backdrop-blur-md z-40 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
         <div className="flex flex-col pt-20 px-6 space-y-4">
           <button
