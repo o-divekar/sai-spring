@@ -30,7 +30,7 @@ export default function WhatsappButton() {
     };
   }, []);
 
-  const phoneNumber = "9769425755";
+  const phoneNumber = "9167745632";
   const message = "Hello! I'm interested in your spring products. Can you please provide more information?";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
